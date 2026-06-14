@@ -1,0 +1,22 @@
+{
+  "name": "mantis-siem-contracts",
+  "version": "1.0.0",
+  "description": "ERC-8004 agent identity contract for Zeham (ADR-003)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network mantleTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy-mainnet.js --network mantleMainnet",
+    "verify:testnet": "hardhat verify --network mantleTestnet",
+    "verify:mainnet": "hardhat verify --network mantleMainnet",
+    "export-abi": "node scripts/export-abi.js"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^16.4.5"
+  }
+}

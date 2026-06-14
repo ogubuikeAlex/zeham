@@ -13,7 +13,8 @@ class TelegramNotifier:
         self.chat_id = settings.telegram_chat_id
         self.enabled = bool(self.token and self.chat_id)
         if not self.enabled:
-            logger.warning("Telegram notifier disabled (TELEGRAM_BOT_TOKEN/CHAT_ID not set)")
+            logger.warning(
+                "Telegram notifier disabled (TELEGRAM_BOT_TOKEN/CHAT_ID not set)")
 
     async def send_alert(self, alert: dict) -> bool:
         """Send a single CRITICAL/HIGH alert immediately. True on success."""
@@ -30,7 +31,8 @@ class TelegramNotifier:
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True,
                 )
-            logger.info(f"Telegram alert sent: {alert['id']} [{alert['severity']}]")
+            logger.info(
+                f"Telegram alert sent: {alert['id']} [{alert['severity']}]")
             return True
         except Exception as e:
             logger.error(f"Telegram send failed for alert {alert['id']}: {e}")
@@ -45,10 +47,11 @@ class TelegramNotifier:
         try:
             from telegram import Bot
             from telegram.constants import ParseMode
-            lines = [f"<b>📋 MantisSIEM Digest — {len(alerts)} alerts</b>\n"]
+            lines = [f"<b>📋 Zeham Digest — {len(alerts)} alerts</b>\n"]
             for a in alerts:
                 emoji = SEVERITY_EMOJI.get(a["severity"], "⚪")
-                anomaly = html.escape(a["anomaly_type"].replace("_", " ").title())
+                anomaly = html.escape(
+                    a["anomaly_type"].replace("_", " ").title())
                 reason = html.escape(a["reason"][:100])
                 lines.append(
                     f"{emoji} <b>{a['severity']}</b> · {anomaly}\n"

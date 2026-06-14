@@ -13,7 +13,8 @@ class DiscordNotifier:
         self.webhook_url = settings.discord_webhook_url
         self.enabled = bool(self.webhook_url)
         if not self.enabled:
-            logger.warning("Discord notifier disabled (DISCORD_WEBHOOK_URL not set)")
+            logger.warning(
+                "Discord notifier disabled (DISCORD_WEBHOOK_URL not set)")
 
     async def send_alert(self, alert: dict) -> bool:
         """Send a single CRITICAL/HIGH alert as a Discord embed. True on success."""
@@ -24,7 +25,8 @@ class DiscordNotifier:
             async with httpx.AsyncClient(timeout=10.0) as client:
                 resp = await client.post(self.webhook_url, json=payload)
                 resp.raise_for_status()
-            logger.info(f"Discord alert sent: {alert['id']} [{alert['severity']}]")
+            logger.info(
+                f"Discord alert sent: {alert['id']} [{alert['severity']}]")
             return True
         except Exception as e:
             logger.error(f"Discord send failed for alert {alert['id']}: {e}")
@@ -42,10 +44,10 @@ class DiscordNotifier:
             ])
             payload = {
                 "embeds": [{
-                    "title":       f"📋 MantisSIEM Digest — {len(alerts)} Alerts",
+                    "title":       f"📋 Zeham Digest — {len(alerts)} Alerts",
                     "description": lines[:2000],
                     "color":       0xFFCC00,
-                    "footer":      {"text": "MantisSIEM v1.0.0 · Mantle Network"},
+                    "footer":      {"text": "Zeham v1.0.0 · Mantle Network"},
                 }]
             }
             async with httpx.AsyncClient(timeout=10.0) as client:

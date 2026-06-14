@@ -128,7 +128,7 @@ async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🛡️ <b>MantisSIEM Bot Commands</b>\n\n"
+        "🛡️ <b>Zeham Bot Commands</b>\n\n"
         "/watch 0x... — Watch a contract for anomalies\n"
         "/unwatch 0x... — Stop watching a contract\n"
         "/status — Show all watched contracts\n"
@@ -149,7 +149,8 @@ async def _post_init(application):
 
 def build_telegram_app():
     """Build and return the python-telegram-bot Application (command handlers)."""
-    app = ApplicationBuilder().token(settings.telegram_bot_token).post_init(_post_init).build()
+    app = ApplicationBuilder().token(
+        settings.telegram_bot_token).post_init(_post_init).build()
     app.add_handler(CommandHandler("watch",   cmd_watch))
     app.add_handler(CommandHandler("unwatch", cmd_unwatch))
     app.add_handler(CommandHandler("status",  cmd_status))
