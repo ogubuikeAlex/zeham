@@ -88,7 +88,10 @@ async def lifespan(app: FastAPI):
         listener_task.cancel()
         with contextlib.suppress(asyncio.CancelledError):
             await listener_task
-        await engine.dispose()
+        dispose = getattr(engine, 'dispose', None)
+        if callable(dispose):
+            with contextlib.suppress(Exception):
+                await dispose()
 
 
 app = FastAPI(title='Zeham Listener (ADR-001)', lifespan=lifespan)
