@@ -34,6 +34,4 @@ class Settings(BaseSettings):
     detection_enabled: bool = True
     detection_interval_seconds: int = 60  
     detection_max_events_per_batch: int = 50   
-
-
 settings = Settings()
