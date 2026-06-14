@@ -1,4 +1,3 @@
-# Source of truth: ADR-001 "Dockerfile". Reproduced as written.
 FROM python:3.12-slim
 WORKDIR /app
 COPY requirements.txt .
