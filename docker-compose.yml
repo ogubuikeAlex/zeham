@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mantis
+      POSTGRES_PASSWORD: mantis
+      POSTGRES_DB: Zeham
+    ports: ['5432:5436']
+    volumes: ['pgdata:/var/lib/postgresql/data']
+
+  backend:
+    build: ./backend
+    env_file: ./backend/.env
+    ports: ['8000:8006']
+    depends_on: [db]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
