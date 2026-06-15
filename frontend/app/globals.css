@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fafafa;
+  color: #171717;
+}
+
+::selection {
+  background: #171717;
+  color: #f2f2f2;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.mesh-band {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 124, 240, 0.18), transparent 28%),
+    radial-gradient(circle at 52% 16%, rgba(80, 227, 194, 0.2), transparent 24%),
+    radial-gradient(circle at 74% 22%, rgba(255, 0, 128, 0.18), transparent 28%),
+    radial-gradient(circle at 92% 18%, rgba(249, 203, 40, 0.2), transparent 22%),
+    linear-gradient(#fff, #fafafa);
+}
