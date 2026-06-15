@@ -16,32 +16,30 @@ module.exports = {
     }
   },
   networks: {
-    // ── Mantle Testnet (Sepolia-based) ─────────────────────────────────────
     mantleTestnet: {
-      url:      "https://rpc.sepolia.mantle.xyz",
-      chainId:  5003,
+      url: "https://rpc.sepolia.mantle.xyz",
+      chainId: 5003,
       accounts,
       gasPrice: "auto"
     },
-    // ── Mantle Mainnet ─────────────────────────────────────────────────────
     mantleMainnet: {
-      url:      "https://rpc.mantle.xyz",
-      chainId:  5000,
+      url: "https://rpc.mantle.xyz",
+      chainId: 5000,
       accounts,
       gasPrice: "auto"
     }
   },
   etherscan: {
     apiKey: {
-      mantleTestnet: process.env.MANTLE_EXPLORER_API_KEY || "placeholder",
-      mantleMainnet: process.env.MANTLE_EXPLORER_API_KEY || "placeholder"
+      mantleTestnet: process.env.MANTLE_EXPLORER_API_KEY || "blockscout",
+      mantleMainnet: process.env.MANTLE_EXPLORER_API_KEY || "blockscout"
     },
     customChains: [
       {
         network: "mantleTestnet",
         chainId: 5003,
         urls: {
-          apiURL:     "https://explorer.sepolia.mantle.xyz/api",
+          apiURL: "https://explorer.sepolia.mantle.xyz/api",
           browserURL: "https://explorer.sepolia.mantle.xyz"
         }
       },
@@ -49,10 +47,15 @@ module.exports = {
         network: "mantleMainnet",
         chainId: 5000,
         urls: {
-          apiURL:     "https://explorer.mantle.xyz/api",
+          apiURL: "https://explorer.mantle.xyz/api",
           browserURL: "https://explorer.mantle.xyz"
         }
       }
     ]
+  },
+  sourcify: {
+    enabled: true,
+    apiUrl: "https://sourcify.dev/server",
+    browserUrl: "https://repo.sourcify.dev"
   }
 };
