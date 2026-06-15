@@ -6,6 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from constants import AlertSource
 from db.database import AsyncSessionLocal
 from db.models import Alert, DetectionLog, Event
+from ws.connection_manager import manager
+from ws.serializers import alert_to_dict
 from .chain import ChainLogger
 
 logger = logging.getLogger(__name__)
@@ -41,7 +43,12 @@ class AlertWriter:
                         extra={'alert_id': alert.id, 'severity': alert.severity,
                                'anomaly_type': alert.anomaly_type, 'source': alert.source,
                                'on_chain_tx': alert.on_chain_tx})
-            return alert
+
+        try:
+            await manager.broadcast(alert_to_dict(alert))
+        except Exception:
+            logger.exception('ws broadcast failed', extra={'alert_id': alert.id})
+        return alert
 
     async def write_rule_alert(self, rule_alert, contract: str, events: list[dict]) -> Alert | None:
         return await self._save_alert(Alert(

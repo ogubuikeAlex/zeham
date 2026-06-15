@@ -2,7 +2,8 @@ import asyncio
 import contextlib
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
 from logging_config import configure_logging
@@ -17,6 +18,11 @@ from scheduler import build_scheduler
 from api.watch import router as watch_router
 from api.health import router as health_router
 from api.subscriptions import router as subscriptions_router
+from api.alerts import router as alerts_router
+from api.contracts import router as contracts_router
+from api.heatmap import router as heatmap_router
+from api.agent import router as agent_router
+from ws.connection_manager import manager
 
 configure_logging(settings.log_level, settings.log_json)
 logger = logging.getLogger(__name__)
@@ -95,6 +101,30 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title='Zeham Listener (ADR-001)', lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=False,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 app.include_router(watch_router)
 app.include_router(health_router)
 app.include_router(subscriptions_router)
+app.include_router(alerts_router)
+app.include_router(contracts_router)
+app.include_router(heatmap_router)
+app.include_router(agent_router)
+
+
+@app.websocket('/ws/alerts')
+async def websocket_alerts(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        await manager.disconnect(websocket)
+    except Exception:
+        await manager.disconnect(websocket)
