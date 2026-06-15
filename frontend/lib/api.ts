@@ -33,7 +33,10 @@ export function getAlerts() {
 }
 
 export async function getAlertStats() {
-  const stats = await fetchJson<Partial<AlertStats> & Record<string, unknown>>("/alerts/stats", emptyStats);
+  const stats = await fetchJson<Partial<AlertStats> & Record<string, unknown>>(
+    "/alerts/stats",
+    emptyStats as Partial<AlertStats> & Record<string, unknown>
+  );
   return {
     total_alerts_today: Number(stats.total_alerts_today ?? stats.total_alerts ?? 0),
     critical_today: Number(stats.critical_today ?? stats.critical_count ?? 0),
