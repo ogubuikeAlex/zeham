@@ -1,18 +1,26 @@
 services:
   db:
     image: postgres:16
+    container_name: mantis-db
     environment:
       POSTGRES_USER: mantis
       POSTGRES_PASSWORD: mantis
       POSTGRES_DB: Zeham
-    ports: ['5432:5436']
+    ports: ['5432:5432']
     volumes: ['pgdata:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mantis -d Zeham']
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build: ./backend
     env_file: ./backend/.env
-    ports: ['8000:8006']
-    depends_on: [db]
+    ports: ['8000:8000']
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
