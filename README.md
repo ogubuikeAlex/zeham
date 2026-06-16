@@ -18,6 +18,8 @@
 ███████╗███████╗██║  ██║██║  ██║██║ ╚═╝ ██║
 ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 ```
+</div>
+<div align="center">
 
 ### AI-Powered On-Chain Security Monitor for Mantle Network
 
